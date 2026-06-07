@@ -18,12 +18,4 @@ Google Sheets, and Telegram.
 - Render
 
 ## Workflow
-News Sources
-↓
-n8n
-↓
-Gemini AI
-↓
-Google Sheets
-↓
-Telegram
+News Sources -> n8n -> Gemini AI -> Google Sheets -> Telegram
