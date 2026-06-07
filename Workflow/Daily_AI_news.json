@@ -1,0 +1,508 @@
+{
+  "name": "Daily_AI_news",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": "={{ 10 }}",
+              "triggerAtMinute": "={{ 30 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -176,
+        128
+      ],
+      "id": "1cab24da-eade-49c1-9794-53a98c7d058d",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=artificial+intelligence&hl=en-IN&gl=IN&ceid=IN:en",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fbfdc678-a561-4332-a9bf-a158cd4858cc",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "chatId": "8710823076",
+        "text": "={{ $('Code in JavaScript1').first().json.telegram_message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1952,
+        144
+      ],
+      "id": "676e11a2-66c6-496f-abd4-db37621676c5",
+      "name": "Send a text message1",
+      "webhookId": "3813f44f-bb7c-45e3-aa58-b9d6a9ae54cf",
+      "credentials": {
+        "telegramApi": {
+          "id": "zZwRfR7cWSbvZ6bk",
+          "name": "Unnamed credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://hnrss.org/newest?q=AI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        128
+      ],
+      "id": "cadd98e1-bc46-4c45-a258-5eb4efee6540",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        272
+      ],
+      "id": "3d70c603-7735-4bb0-89f4-ae0f2fa51c75",
+      "name": "RSS Read2"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        112
+      ],
+      "id": "e4370fd8-ca8f-4b6b-a6ca-1b2dbfe2b7be",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1VOjUvjPy0AFcVdMjpP2CLToPFsLYUWX4CiShk6cwOTk",
+          "mode": "list",
+          "cachedResultName": "AI daily news",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VOjUvjPy0AFcVdMjpP2CLToPFsLYUWX4CiShk6cwOTk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VOjUvjPy0AFcVdMjpP2CLToPFsLYUWX4CiShk6cwOTk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.date }}",
+            "Title": "={{ $json.title }}",
+            "Summary": "={{ $json.summary }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1520,
+        144
+      ],
+      "id": "4f3a8ba2-1aab-4218-a794-95ac6f52389d",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xyW9oeyKRf8nwq8o",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6a9f9a22-16e5-4164-a812-1941db746273",
+      "name": "Wait",
+      "webhookId": "97b1e84e-834d-4e24-b7f0-4bddf8afcde6"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        128
+      ],
+      "id": "3da555dc-ac93-4d79-a9e1-33b8a8913b6f",
+      "name": "Wait1",
+      "webhookId": "97b1e84e-834d-4e24-b7f0-4bddf8afcde6"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        272
+      ],
+      "id": "fdf9bf9e-7351-449f-83c0-6f0f35e04483",
+      "name": "Wait2",
+      "webhookId": "97b1e84e-834d-4e24-b7f0-4bddf8afcde6"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an AI news editor.\n\nSummarize the following AI news article into a short, clean paragraph (maximum 2 sentences).\n\nRules:\n- Explain what actually happened.\n- Keep it simple and easy to read.\n- No bullet points.\n- No hype or opinion.\n- Do NOT repeat the title.\n- Remove URLs, metadata, comments, and RSS junk.\n- Output ONLY the summary text.\n\nTitle:\n{{ $json.title }}\n\nContent:\n{{ $json.contentSnippet || $json.content || \"\" }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": []
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        768,
+        256
+      ],
+      "id": "2905bde1-7ba0-444a-a4fa-9c3dfc85364b",
+      "name": "Basic LLM Chain",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        656,
+        400
+      ],
+      "id": "1273be53-3542-4692-9332-8a23b39688f3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "FlH3JsBlhaWQ7Qan",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const keywords = [\n  \"ai\",\"llm\",\"agent\",\"model\",\"openai\",\n  \"gemini\",\"anthropic\",\"claude\",\n  \"research\",\"paper\",\"benchmark\",\n  \"release\",\"launch\",\"robotics\",\n  \"multimodal\",\"machine learning\"\n];\n\nconst badWords = [\n  \"job\",\"career\",\"stock\",\"funding\",\n  \"lawsuit\",\"politics\",\"opinion\",\n  \"show hn\",\"ask hn\"\n];\n\nconst items = $input.all();\nconst seen = new Set();\n\nconst scored = items\n  .map(item => {\n\n    const title = item.json.title || \"\";\n\n    const content =\n      item.json.contentSnippet ||\n      item.json.content ||\n      \"\";\n\n    const text =\n      `${title} ${content}`.toLowerCase();\n\n    let score = 0;\n\n    keywords.forEach(word => {\n      if (text.includes(word)) score += 2;\n    });\n\n    badWords.forEach(word => {\n      if (text.includes(word)) score -= 5;\n    });\n\n    return {\n      json: {\n        title,\n        content,\n        score\n      }\n    };\n  })\n\n  // remove duplicates\n  .filter(item => {\n    const title =\n      item.json.title.toLowerCase();\n\n    if (seen.has(title)) {\n      return false;\n    }\n\n    seen.add(title);\n    return true;\n  })\n\n  // keep good news\n  .filter(item =>\n    item.json.score > 0\n  )\n\n  // sort best first\n  .sort((a, b) =>\n    b.json.score - a.json.score\n  )\n\n  // IMPORTANT: max 5\n  .slice(0, 5);\n\nreturn scored;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        128
+      ],
+      "id": "bc3c7d6d-52e0-4c3a-92f8-b3c05bf3bce1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet telegram =\n\"🧠 AI Daily Brief\\n\\n\";\n\nconst output = [];\n\nitems.forEach((item, index) => {\n\n  const title =\n    item.json.title || \"No title\";\n\n  const summary =\n    item.json.text ||\n    \"Summary unavailable\";\n\n  telegram +=\n`${index + 1}️⃣ ${title}\n\n${summary}\n\n`;\n});\n\n// Create sheet rows\nitems.forEach((item) => {\n\n  output.push({\n    json: {\n      date: new Date()\n        .toISOString()\n        .split(\"T\")[0],\n\n      title:\n        item.json.title,\n\n      summary:\n        item.json.text,\n\n      telegram_message:\n        telegram\n    }\n  });\n});\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        144
+      ],
+      "id": "24bbf5e6-2b39-4a6c-be81-d5bd356f75a7",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        144
+      ],
+      "id": "d1f1e639-df4f-49a2-8151-75b8e0d6d0fc",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        144
+      ],
+      "id": "a22c89c1-4446-4145-99c0-6fa8087af02b",
+      "name": "Limit"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read2": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "120f62f6-7da6-4752-994e-20b37bc1efdc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cfc2e22fe53bde985bdb798ad841816c2459e023ff344d2e4624639e172a2f3b"
+  },
+  "id": "yyvJe36ZcX9luPRt",
+  "tags": []
+}
